@@ -61,7 +61,7 @@ export default function LoginPage() {
 
       // Store login state
       localStorage.setItem("isLoggedIn", "true")
-      localStorage.setItem("userEmail", "12.@org")
+      localStorage.setItem("userEmail", "demo@space-detective.org")
 
       // Redirect to dashboard page after a short delay
       setTimeout(() => {
