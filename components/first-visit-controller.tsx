@@ -3,7 +3,7 @@
 import { useState, useEffect, type ReactNode } from "react"
 
 interface FirstVisitControllerProps {
-  children: ReactNode
+  children: ReactNode | ((isFirstVisit: boolean) => ReactNode)
   storageKey?: string
 }
 
@@ -29,5 +29,11 @@ export function FirstVisitController({ children, storageKey = "hasVisitedBefore"
     return null // Or a loading spinner
   }
 
+  // If children is a function, call it with isFirstVisit
+  if (typeof children === "function") {
+    return <>{children(isFirstVisit)}</>
+  }
+
+  // Otherwise, just render children directly
   return <>{children}</>
 }

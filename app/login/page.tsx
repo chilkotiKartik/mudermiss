@@ -40,8 +40,8 @@ export default function LoginPage() {
         localStorage.setItem("isLoggedIn", "true")
         localStorage.setItem("userEmail", email)
 
-        // Redirect to challenges page
-        router.push("/challenges")
+        // Redirect to dashboard page
+        router.push("/dashboard")
       } else {
         setError("Invalid credentials. Please check your email and password.")
       }
@@ -63,9 +63,9 @@ export default function LoginPage() {
       localStorage.setItem("isLoggedIn", "true")
       localStorage.setItem("userEmail", "demo@space-detective.org")
 
-      // Redirect to challenges page after a short delay
+      // Redirect to dashboard page after a short delay
       setTimeout(() => {
-        router.push("/challenges")
+        router.push("/dashboard")
       }, 1500)
     } catch (err) {
       setError("An error occurred with demo login. Please try again.")
@@ -191,20 +191,12 @@ export default function LoginPage() {
                   "Access Terminal"
                 )}
               </button>
-
-              <div className="mt-4 text-center">
-                <button type="button" onClick={handleDemoLogin} className="text-sm text-blue-400 hover:text-blue-300">
-                  Use Demo Account
-                </button>
-              </div>
             </form>
 
-            <div className="mt-6 text-center text-xs text-gray-500">
-              <p>Authorized access only. All login attempts are monitored and logged.</p>
-              <p className="mt-2">
-                <span className="text-blue-500">Accepted domains:</span> nasa.gov, esa.int, isro.gov.in,
-                space-detective.org
-              </p>
+            <div className="mt-4 text-center">
+              <button type="button" onClick={handleDemoLogin} className="text-sm text-blue-400 hover:text-blue-300">
+                Use Demo Account
+              </button>
             </div>
           </div>
         </motion.div>
