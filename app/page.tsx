@@ -1,60 +1,34 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { Particles } from "@/components/particles"
 import { FirstVisitController } from "@/components/first-visit-controller"
-import { EnhancedSpaceMurderWelcome } from "@/components/enhanced-space-murder-welcome"
-import { EnhancedParticles } from "@/components/enhanced-particles"
+import { SpaceWelcomeAnimation } from "@/components/space-welcome-animation"
 
 export default function HomePage() {
-  const router = useRouter()
   const [showWelcome, setShowWelcome] = useState(true)
   const [showContent, setShowContent] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user is already logged in
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"
-
-    if (isLoggedIn) {
-      // Redirect to challenges page if already logged in
-      router.push("/challenges")
-    } else {
-      setIsLoading(false)
-    }
-
     const timer = setTimeout(() => {
       setShowContent(true)
     }, 300)
     return () => clearTimeout(timer)
-  }, [router])
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-blue-500"></div>
-      </div>
-    )
-  }
+  }, [])
 
   return (
-    <FirstVisitController storageKey="space-murder-welcome-shown">
-      {(isFirstVisit) => {
-        return (
+    <>
+      <FirstVisitController storageKey="space-murder-welcome-shown">
+        {(firstVisit) => (
           <>
-            {isFirstVisit && showWelcome ? (
-              <EnhancedSpaceMurderWelcome onComplete={() => setShowWelcome(false)} />
-            ) : (
+            {firstVisit && showWelcome && <SpaceWelcomeAnimation onComplete={() => setShowWelcome(false)} />}
+            {(!firstVisit || !showWelcome) && (
               <div className="relative min-h-screen bg-black text-white">
                 {/* Animated background */}
                 <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black"></div>
-
-                {/* Enhanced particles */}
-                <div className="absolute inset-0 z-10">
-                  <EnhancedParticles quantity={150} color="#06b6d4" glow={true} />
-                </div>
+                <Particles className="absolute inset-0 z-10" quantity={100} color="#06b6d4" />
 
                 {/* Space overlay */}
                 <div className="absolute inset-0 z-20 bg-[url('/space-grid.svg')] opacity-10"></div>
@@ -135,12 +109,8 @@ export default function HomePage() {
                   <div className="absolute -left-40 bottom-40 h-80 w-80 animate-float-delayed rounded-full bg-purple-500/5 blur-3xl"></div>
                 </div>
 
-                {/* Add global styles for the star animation */}
+                {/* Add global styles for the animations */}
                 <style jsx global>{`
-                  @keyframes twinkle {
-                    0%, 100% { opacity: 0.3; }
-                    50% { opacity: 1; }
-                  }
                   @keyframes float {
                     0%, 100% { transform: translateY(0); }
                     50% { transform: translateY(-20px); }
@@ -153,8 +123,8 @@ export default function HomePage() {
               </div>
             )}
           </>
-        )
-      }}
-    </FirstVisitController>
+        )}
+      </FirstVisitController>
+    </>
   )
 }

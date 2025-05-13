@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { InteractiveChallengesDashboard } from "@/components/interactive-challenges-dashboard"
 import { FirstVisitController } from "@/components/first-visit-controller"
-import { EnhancedSpaceMurderWelcome } from "@/components/enhanced-space-murder-welcome"
+import { SpaceWelcomeAnimation } from "@/components/space-welcome-animation"
 
 export default function ChallengesPage() {
   const [showWelcome, setShowWelcome] = useState(true)
@@ -17,18 +17,15 @@ export default function ChallengesPage() {
   }, [])
 
   return (
-    <FirstVisitController storageKey="space-murder-challenges-shown">
-      {(isFirstVisit) => {
-        return (
+    <>
+      <FirstVisitController storageKey="space-murder-welcome-shown">
+        {(firstVisit) => (
           <>
-            {isFirstVisit && showWelcome ? (
-              <EnhancedSpaceMurderWelcome onComplete={() => setShowWelcome(false)} />
-            ) : (
-              <InteractiveChallengesDashboard userName={userName} />
-            )}
+            {firstVisit && showWelcome && <SpaceWelcomeAnimation onComplete={() => setShowWelcome(false)} />}
+            {(!firstVisit || !showWelcome) && <InteractiveChallengesDashboard userName={userName} />}
           </>
-        )
-      }}
-    </FirstVisitController>
+        )}
+      </FirstVisitController>
+    </>
   )
 }

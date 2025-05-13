@@ -29,11 +29,11 @@ export function FirstVisitController({ children, storageKey = "hasVisitedBefore"
     return null // Or a loading spinner
   }
 
-  // If children is a function, call it with isFirstVisit
+  // Check if children is a function and call it with isFirstVisit if it is
   if (typeof children === "function") {
     return <>{children(isFirstVisit)}</>
   }
 
-  // Otherwise, just render children directly
+  // Otherwise, render children directly
   return <>{children}</>
 }
